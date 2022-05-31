@@ -19,11 +19,11 @@ function SignIn({navigation}: SignInScreenProps) {
   const passwordRef = useRef<TextInput | null>(null);
 
   const onChangeEmail = useCallback((text: string) => {
-    setEmail(text);
+    setEmail(text.trim());
   }, []);
 
   const onChangePassword = useCallback((text: string) => {
-    setPassword(text);
+    setPassword(text.trim());
   }, []);
 
   const onSubmit = useCallback(() => {
