@@ -1,10 +1,11 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 const initialState = {
   name: '',
   email: '',
   accessToken: '',
   refreshToken: '',
+  money: 0,
 };
 
 const userSlice = createSlice({
@@ -16,6 +17,9 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
+    },
+    setMoney(state, action: PayloadAction<number>) {
+      state.money = action.payload;
     },
   },
 });
