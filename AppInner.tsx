@@ -16,6 +16,7 @@ import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
 import userSlice from './src/slices/userSlice';
 import {Alert} from 'react-native';
+import usePermissions from './src/hooks/usePermissions';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -25,10 +26,12 @@ function AppInner() {
   const dispatch = useDispatch();
   const [socket, disconnect] = useSocket();
 
+  usePermissions();
+
   useEffect(() => {
     axios.interceptors.response.use(
       response => response,
-    async error => {
+      async error => {
         const {
           config,
           response: {status},
