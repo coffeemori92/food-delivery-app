@@ -17,6 +17,9 @@ import Config from 'react-native-config';
 import userSlice from './src/slices/userSlice';
 import {Alert} from 'react-native';
 import usePermissions from './src/hooks/usePermissions';
+import SplashScreen from 'react-native-splash-screen';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -64,6 +67,7 @@ function AppInner() {
       try {
         const token = await EncryptedStorage.getItem('refreshToken');
         if (!token) {
+          SplashScreen.hide();
           return;
         }
         const response = await axios.post(
@@ -90,6 +94,7 @@ function AppInner() {
           Alert.alert('알림', '다시 로그인 해주세요.');
         }
       } finally {
+        SplashScreen.hide();
       }
     };
     getTokenAndRefresh();
@@ -123,17 +128,28 @@ function AppInner() {
           <Tab.Screen
             name="Orders"
             component={Orders}
-            options={{title: '오더 목록'}}
+            options={{
+              title: '오더 목록',
+              tabBarIcon: () => <FontAwesome5Icon name="list" size={20} />,
+            }}
           />
           <Tab.Screen
             name="Delivery"
             component={Delivery}
-            options={{headerShown: false}}
+            options={{
+              title: '지도',
+              headerShown: false,
+              tabBarIcon: () => <FontAwesome5Icon name="map" size={20} />,
+            }}
           />
           <Tab.Screen
             name="Settings"
             component={Settings}
-            options={{title: '내 정보'}}
+            options={{
+              title: '내 정보',
+              unmountOnBlur: true,
+              tabBarIcon: () => <FontAwesomeIcon name="gear" size={20} />,
+            }}
           />
         </Tab.Navigator>
       ) : (
